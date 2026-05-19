@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Hanuman Ji Bhandara Live</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+body{
+    background:#fff7ed;
+}
+
+.livePulse{
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+</style>
+
+</head>
+
+<body class="text-gray-800">
+
+<!-- HEADER -->
+<header class="bg-gradient-to-r from-orange-800 to-red-700 text-white p-6 shadow-xl">
+
+<div class="max-w-7xl mx-auto flex justify-between items-center">
+
+<div>
+<h1 class="text-4xl font-bold">
+🚩 Hanuman Ji Bhandara Live
+</h1>
+
+<p class="text-orange-100 mt-2">
+Realtime Bhandara Tracking Platform - Lucknow
+</p>
+</div>
+
+<div class="flex gap-3">
+
+<button onclick="showSection('publicSection')" class="bg-white text-orange-700 px-5 py-2 rounded-xl font-semibold">
+Public View
+</button>
+
+<button onclick="showSection('adminSection')" class="bg-black text-white px-5 py-2 rounded-xl font-semibold">
+Admin Panel
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+<!-- FILTERS -->
+<section class="max-w-7xl mx-auto p-6">
+
+<div class="bg-white rounded-2xl shadow-lg p-5">
+
+<div class="flex flex-wrap gap-3">
+
+<button onclick="filterCards('all')" class="bg-orange-600 text-white px-4 py-2 rounded-xl">
+All
+</button>
+
+<button onclick="filterCards('open')" class="bg-green-600 text-white px-4 py-2 rounded-xl">
+Open
+</button>
+
+<button onclick="filterCards('upcoming')" class="bg-yellow-500 text-white px-4 py-2 rounded-xl">
+Upcoming
+</button>
+
+<button onclick="filterCards('closed')" class="bg-gray-700 text-white px-4 py-2 rounded-xl">
+Closed
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PUBLIC SECTION -->
+<section id="publicSection">
+
+<!-- CARDS -->
+<section class="max-w-7xl mx-auto p-6">
+
+<h2 class="text-3xl font-bold text-orange-700 mb-6">
+Live Bhandaras
+</h2>
+
+<div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+</div>
+
+</section>
+
+<!-- TABLE VIEW -->
+<section class="max-w-7xl mx-auto p-6">
+
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+<div class="p-5 border-b">
+
+<h2 class="text-2xl font-bold text-orange-700">
+Bhandara Calendar / Schedule
+</h2>
+
+</div>
+
+<div class="overflow-x-auto">
+
+<table class="w-full">
+
+<thead class="bg-orange-100">
+
+<tr>
+
+<th class="p-4 text-left">Date</th>
+<th class="p-4 text-left">Bhandara</th>
+<th class="p-4 text-left">Location</th>
+<th class="p-4 text-left">Menu</th>
+<th class="p-4 text-left">Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- USER SUBMISSION -->
+<section class="max-w-5xl mx-auto p-6">
+
+<div class="bg-white rounded-2xl shadow-xl p-8">
+
+<h2 class="text-3xl font-bold text-orange-700 mb-6">
+Submit New Bhandara
+</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+<input id="name" class="border p-4 rounded-xl" placeholder="Bhandara Name">
+
+<input id="location" class="border p-4 rounded-xl" placeholder="Location">
+
+<input id="menu" class="border p-4 rounded-xl" placeholder="Menu Items">
+
+<input id="date" type="date" class="border p-4 rounded-xl">
+
+<select id="status" class="border p-4 rounded-xl">
+
+<option value="upcoming">Upcoming</option>
+<option value="open">Open</option>
+<option value="closed">Closed</option>
+
+</select>
+
+<input id="image" class="border p-4 rounded-xl" placeholder="Image URL">
+
+<textarea id="address" class="border p-4 rounded-xl md:col-span-2" placeholder="Full Address"></textarea>
+
+<button onclick="submitBhandara()" class="bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-xl text-lg font-semibold md:col-span-2">
+Submit for Approval
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+<!-- ADMIN SECTION -->
+<section id="adminSection" class="hidden">
+
+<div class="max-w-7xl mx-auto p-6">
+
+<div class="bg-black text-white rounded-2xl p-6 mb-6">
+
+<h2 class="text-3xl font-bold">
+Admin Approval Dashboard
+</h2>
+
+<p class="text-gray-300 mt-2">
+Approve or reject community submissions
+</p>
+
+</div>
+
+<div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+
+<table class="w-full">
+
+<thead class="bg-black text-white">
+
+<tr>
+
+<th class="p-4">Name</th>
+<th class="p-4">Location</th>
+<th class="p-4">Status</th>
+<th class="p-4">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="adminTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+let approvedData = [
+
+{
+name:"Sankat Mochan Bhandara",
+location:"Aliganj Hanuman Mandir",
+menu:"Puri, Sabzi, Halwa",
+status:"open",
+date:"2026-05-19",
+image:"https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1974&auto=format&fit=crop",
+address:"Lucknow"
+},
+
+{
+name:"Bajrang Seva Bhoj",
+location:"Gomti Nagar",
+menu:"Khichdi, Kheer",
+status:"upcoming",
+date:"2026-05-21",
+image:"https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=1974&auto=format&fit=crop",
+address:"Lucknow"
+}
+
+];
+
+let pendingData = [];
+
+function renderCards(data){
+
+const container = document.getElementById("cardsContainer");
+
+container.innerHTML = "";
+
+data.forEach(item=>{
+
+container.innerHTML += `
+
+<div class="bg-white rounded-3xl overflow-hidden shadow-xl">
+
+<img src="${item.image}" class="h-56 w-full object-cover">
+
+<div class="p-6">
+
+<div class="flex justify-between items-center mb-4">
+
+<h3 class="text-2xl font-bold text-orange-700">
+${item.name}
+</h3>
+
+<span class="${item.status==='open' ? 'bg-green-600 livePulse' : item.status==='upcoming' ? 'bg-yellow-500' : 'bg-gray-700'} text-white px-4 py-1 rounded-full">
+
+${item.status.toUpperCase()}
+
+</span>
+
+</div>
+
+<div class="space-y-3">
+
+<p>📍 ${item.location}</p>
+
+<p>🍛 ${item.menu}</p>
+
+<p>📅 ${item.date}</p>
+
+<p>🏠 ${item.address}</p>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function renderTable(){
+
+const body = document.getElementById("tableBody");
+
+body.innerHTML = "";
+
+approvedData.forEach(item=>{
+
+body.innerHTML += `
+
+<tr class="border-b">
+
+<td class="p-4">${item.date}</td>
+<td class="p-4">${item.name}</td>
+<td class="p-4">${item.location}</td>
+<td class="p-4">${item.menu}</td>
+<td class="p-4">
+
+<span class="${item.status==='open' ? 'bg-green-600' : item.status==='upcoming' ? 'bg-yellow-500' : 'bg-gray-700'} text-white px-3 py-1 rounded-full">
+
+${item.status}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function submitBhandara(){
+
+const newItem = {
+
+name:document.getElementById("name").value,
+location:document.getElementById("location").value,
+menu:document.getElementById("menu").value,
+date:document.getElementById("date").value,
+status:document.getElementById("status").value,
+image:document.getElementById("image").value,
+address:document.getElementById("address").value
+
+};
+
+pendingData.push(newItem);
+
+renderAdmin();
+
+alert("Submitted for admin approval");
+
+}
+
+function renderAdmin(){
+
+const admin = document.getElementById("adminTable");
+
+admin.innerHTML = "";
+
+pendingData.forEach((item,index)=>{
+
+admin.innerHTML += `
+
+<tr class="border-b">
+
+<td class="p-4">${item.name}</td>
+<td class="p-4">${item.location}</td>
+<td class="p-4">${item.status}</td>
+
+<td class="p-4 flex gap-2">
+
+<button onclick="approveItem(${index})" class="bg-green-600 text-white px-4 py-2 rounded-xl">
+Approve
+</button>
+
+<button onclick="rejectItem(${index})" class="bg-red-600 text-white px-4 py-2 rounded-xl">
+Reject
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function approveItem(index){
+
+approvedData.push(pendingData[index]);
+
+pendingData.splice(index,1);
+
+renderCards(approvedData);
+
+renderAdmin();
+
+renderTable();
+
+}
+
+function rejectItem(index){
+
+pendingData.splice(index,1);
+
+renderAdmin();
+
+}
+
+function filterCards(type){
+
+if(type==="all"){
+renderCards(approvedData);
+return;
+}
+
+const filtered = approvedData.filter(item=>item.status===type);
+
+renderCards(filtered);
+
+}
+
+function showSection(id){
+
+document.getElementById("publicSection").classList.add("hidden");
+document.getElementById("adminSection").classList.add("hidden");
+
+document.getElementById(id).classList.remove("hidden");
+
+}
+
+renderCards(approvedData);
+renderTable();
+
+</script>
+
+</body>
+</html>
