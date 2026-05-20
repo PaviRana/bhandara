@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bhandara Live – Lucknow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --saffron:#E8541E;--saffron-light:#FFF0E8;--saffron-dark:#B53E12;
+  --gold:#D4960A;--gold-light:#FFF9E0;--cream:#FDF6EE;
+  --dark:#1A1208;--muted:#7A6552;--card-bg:#FFFFFF;--border:#EDD9C6;
+  --open:#1A7A3F;--open-bg:#E8F5ED;--upcoming:#9A6600;--upcoming-bg:#FFF3CC;
+  --closed:#555;--closed-bg:#EFEFEF;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
+header{background:linear-gradient(135deg,var(--saffron-dark) 0%,var(--saffron) 60%,var(--gold) 100%);color:#fff}
+.header-inner{max-width:1200px;margin:0 auto;padding:28px 24px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.header-brand h1{font-family:'Tiro Devanagari Hindi',serif;font-size:clamp(22px,4vw,36px);font-weight:400;letter-spacing:.5px;line-height:1.2}
+.header-brand p{font-size:14px;opacity:.85;margin-top:6px}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:500;margin-top:10px}
+.live-dot{width:8px;height:8px;background:#6EF08A;border-radius:50%;animation:livepulse 1.2s infinite}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+.nav-strip{background:rgba(0,0,0,.18);border-top:1px solid rgba(255,255,255,.1)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;gap:2px}
+.nav-inner a{color:rgba(255,255,255,.8);text-decoration:none;font-size:13px;font-weight:500;padding:12px 16px;border-bottom:2px solid transparent;transition:.2s}
+.nav-inner a:hover{color:#fff;border-bottom-color:#fff}
+main{max-width:1200px;margin:0 auto;padding:32px 24px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 20px}
+.stat-card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:500}
+.stat-card .value{font-size:28px;font-weight:600;color:var(--dark);margin-top:4px;line-height:1}
+.stat-card.open .value{color:var(--open)}.stat-card.upcoming .value{color:var(--upcoming)}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
+.filter-bar span{font-size:13px;color:var(--muted);font-weight:500;margin-right:4px}
+.pill{border:1.5px solid var(--border);background:#fff;color:var(--muted);padding:7px 18px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:.15s}
+.pill:hover{border-color:var(--saffron);color:var(--saffron)}.pill.active{background:var(--saffron);border-color:var(--saffron);color:#fff}
+.search-box{margin-left:auto;position:relative}
+.search-box input{border:1.5px solid var(--border);border-radius:100px;padding:7px 16px 7px 36px;font-size:13px;font-family:inherit;background:#fff;outline:none;width:220px}
+.search-box input:focus{border-color:var(--saffron)}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.section-title{font-size:20px;font-weight:600;color:var(--dark);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.section-title .count{font-size:13px;background:var(--saffron-light);color:var(--saffron);border-radius:20px;padding:2px 10px;font-weight:500}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-bottom:40px}
+.bhandara-card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.bhandara-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.card-img{height:180px;width:100%;object-fit:cover;background:var(--saffron-light);display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover}
+.card-body{padding:18px}
+.card-header-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}
+.card-name{font-size:17px;font-weight:600;color:var(--dark);line-height:1.3}
+.status-badge{font-size:11px;font-weight:600;padding:4px 11px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.status-badge.open{background:var(--open-bg);color:var(--open)}.status-badge.upcoming{background:var(--upcoming-bg);color:var(--upcoming)}.status-badge.closed{background:var(--closed-bg);color:var(--closed)}
+.card-meta{display:flex;flex-direction:column;gap:7px}
+.card-meta-row{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:var(--muted)}
+.card-meta-row svg{flex-shrink:0;margin-top:2px;color:var(--saffron)}
+.card-menu{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px}
+.menu-tag{background:var(--gold-light);color:var(--gold);border-radius:100px;padding:3px 11px;font-size:12px;font-weight:500}
+.card-footer{margin-top:14px;display:flex;gap:8px}
+.card-footer a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:10px;font-size:13px;font-weight:500;transition:.15s;cursor:pointer}
+.btn-map{background:var(--saffron-light);color:var(--saffron);border:1px solid #EDD0BC}.btn-map:hover{background:var(--saffron);color:#fff}
+.btn-share{background:#f3f3f3;color:var(--muted);border:1px solid #e0e0e0}.btn-share:hover{background:#e8e8e8}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state .icon{font-size:48px;margin-bottom:12px}.empty-state p{font-size:15px}
+.table-section{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:40px}
+.table-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.table-header h2{font-size:17px;font-weight:600}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--saffron-light)}
+th{padding:12px 16px;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--saffron-dark);font-weight:600}
+td{padding:13px 16px;font-size:13.5px;border-bottom:1px solid var(--border)}
+tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:#FAFAFA}
+.submit-section{background:#fff;border:1px solid var(--border);border-radius:18px;padding:32px;margin-bottom:40px}
+.submit-section h2{font-size:22px;font-weight:600;margin-bottom:6px}
+.submit-section .subtitle{font-size:14px;color:var(--muted);margin-bottom:28px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:13px;font-weight:500;color:var(--dark)}
+.form-group input,.form-group select,.form-group textarea{border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none;transition:.15s;background:#fff;color:var(--dark)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--saffron)}
+.form-group.full{grid-column:1/-1}.form-group textarea{resize:vertical;min-height:80px}
+.submit-btn{background:var(--saffron);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s;width:100%;margin-top:8px}
+.submit-btn:hover{background:var(--saffron-dark)}.submit-btn:disabled{opacity:.6;cursor:not-allowed}
+.success-toast{display:none;background:var(--open-bg);color:var(--open);border:1px solid #A8DDB8;border-radius:12px;padding:14px 18px;margin-top:16px;font-size:14px;font-weight:500}
+.error-msg{color:#c0392b;font-size:12px;margin-top:2px;display:none}
+/* Loading overlay */
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(253,246,238,.85);z-index:50;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.loading-overlay.show{display:flex}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{background:var(--dark);color:rgba(255,255,255,.6);text-align:center;padding:24px;font-size:13px}
+footer strong{color:#fff}
+@media(max-width:640px){.header-inner{flex-direction:column}.search-box{margin-left:0;width:100%}.search-box input{width:100%}main{padding:20px 14px}.submit-section{padding:20px}}
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p style="color:var(--muted);font-size:14px">Loading bhandaras…</p>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="header-brand">
+      <h1>🚩 Bhandara Live – Lucknow</h1>
+      <p>Real-time Bhandara Tracker | Prasad · Seva · Darshan</p>
+      <div class="live-badge"><span class="live-dot"></span> Live Updates</div>
+    </div>
+    <div style="text-align:right;padding-top:4px">
+      <p style="font-size:13px;opacity:.8">Manage listings?</p>
+      <a href="admin.html" style="display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:8px 20px;border-radius:10px;font-size:13px;font-weight:500">Admin Login →</a>
+    </div>
+  </div>
+  <nav class="nav-strip">
+    <div class="nav-inner">
+      <a href="#live">Live Bhandaras</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#submit">Submit a Bhandara</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="stats-row">
+    <div class="stat-card open"><div class="label">Open Now</div><div class="value" id="statOpen">—</div></div>
+    <div class="stat-card upcoming"><div class="label">Upcoming</div><div class="value" id="statUpcoming">—</div></div>
+    <div class="stat-card"><div class="label">Total Listed</div><div class="value" id="statTotal">—</div></div>
+    <div class="stat-card"><div class="label">Pending Review</div><div class="value" id="statPending">—</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <span>Filter:</span>
+    <button class="pill active" onclick="setFilter('all',this)">All</button>
+    <button class="pill" onclick="setFilter('open',this)">🟢 Open</button>
+    <button class="pill" onclick="setFilter('upcoming',this)">🟡 Upcoming</button>
+    <button class="pill" onclick="setFilter('closed',this)">⚫ Closed</button>
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Search bhandara, area…" oninput="renderCards()">
+    </div>
+  </div>
+
+  <section id="live">
+    <div class="section-title">Live Bhandaras <span class="count" id="countBadge">0</span></div>
+    <div class="cards-grid" id="cardsGrid"><div class="empty-state" style="grid-column:1/-1"><div class="icon">🪔</div><p>Loading…</p></div></div>
+  </section>
+
+  <section id="schedule" style="margin-top:8px">
+    <div class="table-section">
+      <div class="table-header"><h2>📅 Bhandara Calendar</h2><span style="font-size:13px;color:var(--muted)" id="tableCount"></span></div>
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>Date</th><th>Name</th><th>Location</th><th>Menu</th><th>Contact</th><th>Status</th></tr></thead>
+        <tbody id="scheduleTable"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section id="submit" style="margin-top:8px">
+    <div class="submit-section">
+      <h2>📨 Submit a Bhandara</h2>
+      <p class="subtitle">Your submission goes to admin review before appearing publicly. Usually approved within a few hours.</p>
+      <div class="form-grid">
+        <div class="form-group"><label>Bhandara Name *</label><input id="f_name" placeholder="e.g. Sankat Mochan Seva Bhandara"><span class="error-msg" id="err_name">Please enter the name</span></div>
+        <div class="form-group"><label>Organiser / Trust Name</label><input id="f_organiser" placeholder="e.g. Jai Hanuman Sewa Samiti"></div>
+        <div class="form-group"><label>Location / Area *</label><input id="f_location" placeholder="e.g. Aliganj, Chowk, Gomti Nagar"><span class="error-msg" id="err_location">Please enter the location</span></div>
+        <div class="form-group"><label>Date *</label><input id="f_date" type="date"><span class="error-msg" id="err_date">Please select a date</span></div>
+        <div class="form-group"><label>Start Time</label><input id="f_time" type="time"></div>
+        <div class="form-group"><label>Status</label><select id="f_status"><option value="upcoming">Upcoming</option><option value="open">Open Now</option></select></div>
+        <div class="form-group"><label>Menu / Prasad Items *</label><input id="f_menu" placeholder="e.g. Puri, Sabzi, Halwa, Kheer"><span class="error-msg" id="err_menu">Please list the menu items</span></div>
+        <div class="form-group"><label>Contact Number</label><input id="f_contact" type="tel" placeholder="For queries / coordination"></div>
+        <div class="form-group"><label>Image URL (optional)</label><input id="f_image" placeholder="https://…"></div>
+        <div class="form-group full"><label>Full Address *</label><textarea id="f_address" placeholder="Street, landmark, pin code…"></textarea><span class="error-msg" id="err_address">Please enter the full address</span></div>
+        <div class="form-group full"><label>Google Maps Link (optional)</label><input id="f_maps" placeholder="Paste a maps.google.com link"></div>
+      </div>
+      <button class="submit-btn" id="submitBtn" onclick="submitBhandara()">Submit for Approval</button>
+      <div class="success-toast" id="successToast">✅ Submitted! Our admin will review and publish it shortly. Jai Hanuman! 🚩</div>
+    </div>
+  </section>
+</main>
+
+<footer><strong>Bhandara Live</strong> · Lucknow · Jai Shri Ram 🚩 · Made with seva for the community</footer>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA-ipTl8oOWnymlI9z5aTFVG98oAIXlJhg",
+  authDomain: "bhandara-c47c6.firebaseapp.com",
+  databaseURL: "https://bhandara-c47c6-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bhandara-c47c6",
+  storageBucket: "bhandara-c47c6.firebasestorage.app",
+  messagingSenderId: "908341072237",
+  appId: "1:908341072237:web:e865cb2a00b58ee3cb8a64"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let allApproved = [];
+let allPending = [];
+let activeFilter = 'all';
+
+document.getElementById('loadingOverlay').classList.add('show');
+
+// Listen to approved bhandaras in real-time
+onValue(ref(db, 'approved'), (snap) => {
+  allApproved = [];
+  if(snap.exists()){
+    snap.forEach(child => { allApproved.push({fbKey: child.key, ...child.val()}); });
+  }
+  renderCards();
+  renderTable();
+  renderStats();
+  document.getElementById('loadingOverlay').classList.remove('show');
+});
+
+// Listen to pending count for stats
+onValue(ref(db, 'pending'), (snap) => {
+  allPending = [];
+  if(snap.exists()){ snap.forEach(child => { allPending.push(child.val()); }); }
+  renderStats();
+});
+
+function setFilter(f, el){
+  activeFilter = f;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderCards();
+}
+window.setFilter = setFilter;
+
+function renderCards(){
+  const q = (document.getElementById('searchInput')?.value||'').toLowerCase();
+  let data = allApproved.filter(b=>{
+    const matchFilter = activeFilter==='all' || b.status===activeFilter;
+    const matchSearch =
+      !q ||
+      (b.name || '').toLowerCase().includes(q) ||
+      (b.location || '').toLowerCase().includes(q) ||
+      (b.menu || '').toLowerCase().includes(q);
+    return matchFilter && matchSearch;
+  });
+  const grid = document.getElementById('cardsGrid');
+  document.getElementById('countBadge').textContent = data.length;
+  if(!data.length){
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🪔</div><p>No bhandaras found. Try a different filter.</p></div>`;
+    return;
+  }
+  grid.innerHTML = data.map(b=>{
+    const menuTags = (b.menu||'').split(',').map(m=>`<span class="menu-tag">${m.trim()}</span>`).join('');
+    const imgHtml = b.image ? `<img src="${b.image}" alt="${b.name}" onerror="this.parentNode.innerHTML='🪔'">` : '🪔';
+    const mapsUrl = b.maps || `https://maps.google.com/?q=${encodeURIComponent(b.address||b.location)}`;
+    return `<div class="bhandara-card">
+      <div class="card-img">${imgHtml}</div>
+      <div class="card-body">
+        <div class="card-header-row">
+          <div class="card-name">${b.name}</div>
+          <span class="status-badge ${b.status}">${b.status==='open'?'🟢 OPEN':b.status==='upcoming'?'🟡 UPCOMING':'⚫ CLOSED'}</span>
+        </div>
+        <div class="card-meta">
+          <div class="card-meta-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${b.location}</div>
+          <div class="card-meta-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${b.date}${b.time?' · '+b.time:''}</div>
+          ${b.organiser?`<div class="card-meta-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${b.organiser}</div>`:''}
+          ${b.contact?`<div class="card-meta-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.71 3.38 2 2 0 0 1 3.68 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.66a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${b.contact}</div>`:''}
+        </div>
+        <div class="card-menu">${menuTags}</div>
+        <div class="card-footer">
+          <a href="${mapsUrl}" target="_blank" class="btn-map">📍 Maps</a>
+          <a class="btn-share" onclick="shareCard('${b.name.replace(/'/g,"\\'")}','${b.location.replace(/'/g,"\\'")}')">🔗 Share</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTable(){
+  const tbody = document.getElementById('scheduleTable');
+  document.getElementById('tableCount').textContent = allApproved.length + ' entries';
+  if(!allApproved.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">No bhandaras scheduled</td></tr>'; return; }
+  tbody.innerHTML = [...allApproved].sort((a,b)=>a.date.localeCompare(b.date)).map(b=>`
+    <tr>
+      <td>${b.date}${b.time?'<br><span style="font-size:12px;color:var(--muted)">'+b.time+'</span>':''}</td>
+      <td><strong>${b.name}</strong>${b.organiser?'<br><span style="font-size:12px;color:var(--muted)">'+b.organiser+'</span>':''}</td>
+      <td>${b.location || '—'}</td>
+      <td style="max-width:160px">${b.menu}</td>
+      <td>${b.contact||'<span style="color:var(--muted)">—</span>'}</td>
+      <td><span class="status-badge ${b.status}">${b.status}</span></td>
+    </tr>`).join('');
+}
+
+function renderStats(){
+  document.getElementById('statOpen').textContent = allApproved.filter(b=>b.status==='open').length;
+  document.getElementById('statUpcoming').textContent = allApproved.filter(b=>b.status==='upcoming').length;
+  document.getElementById('statTotal').textContent = allApproved.length;
+  document.getElementById('statPending').textContent = allPending.length;
+}
+
+function validate(){
+  let ok=true;
+  [['f_name','err_name'],['f_location','err_location'],['f_date','err_date'],['f_menu','err_menu'],['f_address','err_address']].forEach(([id,err])=>{
+    const el=document.getElementById(id), e=document.getElementById(err);
+    if(!el.value.trim()){e.style.display='block';el.style.borderColor='#c0392b';ok=false;}
+    else{e.style.display='none';el.style.borderColor='';}
+  });
+  return ok;
+}
+
+async function submitBhandara(){
+  if(!validate()) return;
+  const btn = document.getElementById('submitBtn');
+  btn.disabled=true; btn.textContent='Submitting…';
+  const newItem = {
+    id: Date.now(),
+    name: document.getElementById('f_name').value.trim(),
+    organiser: document.getElementById('f_organiser').value.trim(),
+    location: document.getElementById('f_location').value.trim(),
+    date: document.getElementById('f_date').value,
+    time: document.getElementById('f_time').value,
+    status: document.getElementById('f_status').value,
+    menu: document.getElementById('f_menu').value.trim(),
+    contact: document.getElementById('f_contact').value.trim(),
+    image: document.getElementById('f_image').value.trim(),
+    address: document.getElementById('f_address').value.trim(),
+    maps: document.getElementById('f_maps').value.trim(),
+    submittedAt: new Date().toISOString()
+  };
+  try {
+    await push(ref(db, 'pending'), newItem);
+    document.getElementById('successToast').style.display='block';
+    ['f_name','f_organiser','f_location','f_date','f_time','f_menu','f_contact','f_image','f_address','f_maps'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f_status').value='upcoming';
+    setTimeout(()=>document.getElementById('successToast').style.display='none', 6000);
+  } catch(e){
+    alert('Error submitting. Please try again.');
+  }
+  btn.disabled=false; btn.textContent='Submit for Approval';
+}
+window.submitBhandara = submitBhandara;
+
+window.shareCard = function(name, location){
+  const text = `🚩 ${name} is happening at ${location}! Check Bhandara Live for more details.`;
+  if(navigator.share){ navigator.share({title:name, text}).catch(()=>{}); }
+  else{ navigator.clipboard.writeText(text).then(()=>alert('Copied to clipboard!')); }
+};
+</script>
+</body>
+</html>
