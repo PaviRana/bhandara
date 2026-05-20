@@ -363,7 +363,11 @@ function renderStats(){
 
 // ── PENDING TABLE ──
 function renderPending(){
-  const data = allPending.filter(b=>!pendingSearchQ||b.name.toLowerCase().includes(pendingSearchQ)||b.location.toLowerCase().includes(pendingSearchQ));
+  const data = allPending.filter(b =>
+  !pendingSearchQ ||
+  (b.name || '').toLowerCase().includes(pendingSearchQ) ||
+  (b.location || '').toLowerCase().includes(pendingSearchQ)
+);
   const tbl  = document.getElementById('pendingTable');
   const hdr  = `<thead><tr><th>Name</th><th>Location</th><th>Date</th><th>Menu</th><th>Contact</th><th>Submitted</th><th>Actions</th></tr></thead>`;
   if(!data.length){ tbl.innerHTML=hdr+`<tbody><tr><td colspan="7"><div class="empty"><div class="icon">🎉</div><p>No pending submissions</p></div></td></tr></tbody>`; return; }
@@ -388,7 +392,11 @@ function renderPending(){
 // ── APPROVED TABLE ──
 function renderApproved(){
   const data = [...allApproved]
-    .filter(b=>!approvedSearchQ||b.name.toLowerCase().includes(approvedSearchQ)||b.location.toLowerCase().includes(approvedSearchQ))
+    .filter(b =>
+      !approvedSearchQ ||
+      (b.name || '').toLowerCase().includes(approvedSearchQ) ||
+      (b.location || '').toLowerCase().includes(approvedSearchQ)
+    )
     .sort((a,b)=>a.date.localeCompare(b.date));
   const tbl = document.getElementById('approvedTable');
   const hdr = `<thead><tr><th>Name</th><th>Location</th><th>Date</th><th>Status</th><th>Menu</th><th>Contact</th><th>Actions</th></tr></thead>`;
