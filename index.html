@@ -238,7 +238,11 @@ function renderCards(){
   const q = (document.getElementById('searchInput')?.value||'').toLowerCase();
   let data = allApproved.filter(b=>{
     const matchFilter = activeFilter==='all' || b.status===activeFilter;
-    const matchSearch = !q || b.name.toLowerCase().includes(q) || b.location.toLowerCase().includes(q) || (b.menu||'').toLowerCase().includes(q);
+    const matchSearch =
+      !q ||
+      (b.name || '').toLowerCase().includes(q) ||
+      (b.location || '').toLowerCase().includes(q) ||
+      (b.menu || '').toLowerCase().includes(q);
     return matchFilter && matchSearch;
   });
   const grid = document.getElementById('cardsGrid');
@@ -282,7 +286,7 @@ function renderTable(){
     <tr>
       <td>${b.date}${b.time?'<br><span style="font-size:12px;color:var(--muted)">'+b.time+'</span>':''}</td>
       <td><strong>${b.name}</strong>${b.organiser?'<br><span style="font-size:12px;color:var(--muted)">'+b.organiser+'</span>':''}</td>
-      <td>${b.location}</td>
+      <td>${b.location || '—'}</td>
       <td style="max-width:160px">${b.menu}</td>
       <td>${b.contact||'<span style="color:var(--muted)">—</span>'}</td>
       <td><span class="status-badge ${b.status}">${b.status}</span></td>
